@@ -61,6 +61,7 @@ public class MyWorld extends World
         col1y=72; //to place checkers in the correct location
         colDiff=41; //to place checkers in the correct location
         
+        // SIZE TODO: Fix Board()
         addObject(new Board(),300,200); //adds game board
         
         
@@ -139,7 +140,7 @@ public class MyWorld extends World
     }
     
     public void playerBlackStrategy(){
-        
+        // SIZE TODO: Fix formatting here
         //leave these top 4 lines at the top
         playerBlack = "Tito";  //put player1 name here
         showText(playerBlack,70,100); //shows your name
@@ -151,7 +152,7 @@ public class MyWorld extends World
         
         //replace the following code with your strategy
         //but the second line shows you how to place your checker
-        int colToPlace = (int)(Math.random()*7);
+        int colToPlace = (int)(Math.random()*grid.length);
         
         placeCol(colToPlace,colorInitial,image1);  //plays in the specified col and fills the 2D array with the 2nd parameter String
         
@@ -174,6 +175,7 @@ public class MyWorld extends World
     
     
     public void playerRedStrategy(){
+        // SIZE TODO: Fix formatting here
         //leave these top 3 lines at the top
         playerRed = "Janet";  //put your name here
         showText(playerRed,getWidth()-70,100); //shows your name
@@ -186,7 +188,7 @@ public class MyWorld extends World
         
         //replace the following code with your strategy
         //but the second line shows you how to place your checker
-        int colToPlace = (int)(Math.random()*7);
+        int colToPlace = (int)(Math.random()*grid.length);
         
         placeCol(colToPlace,colorInitial,image2);  //plays in the specified col and fills the 2D array with the 2nd parameter String
          
@@ -217,7 +219,7 @@ public class MyWorld extends World
             }
             else{//a random column is selected
                 
-                placeCol((int)(Math.random()*7),teamInitial, color);
+                placeCol((int)(Math.random()*grid.length),teamInitial, color);
                 
             }
         
