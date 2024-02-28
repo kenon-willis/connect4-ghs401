@@ -40,7 +40,7 @@ public class MyWorld extends World
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(600, 400, 1); 
-        grid = new String[6][7];    //to keep track of the game board
+        grid = new String[10][10];    //to keep track of the game board
         firstPlayerTurn = (int)(Math.random()*2+1);   //randomize who starts the game
         playerBlack = "PlayerBlack";
         playerRed = "PlayerRed";
@@ -58,7 +58,7 @@ public class MyWorld extends World
         
         
         turnCounter = 1; //used to keep track of number of plays made
-        scaleFactor=1;
+        scaleFactor=2;
         colDiff=41/scaleFactor; //to place checkers in the correct location
         rowDiff=38/scaleFactor;
         col1x=(getWidth()/2) - ((grid[0].length-1) * colDiff)/2; //to place checkers in the correct location
@@ -69,9 +69,6 @@ public class MyWorld extends World
 
     }
     
-    public int getScaleFactor() {
-        return scaleFactor;
-    }
     public void addBoard() {
         // Size: 41 x 38
         //  (matches rowDiff & colDiff)
@@ -81,10 +78,10 @@ public class MyWorld extends World
             }
         }
         
-        
-        addObject(new Top(), col1x+((grid[0].length-1)*colDiff)/2, col1y-30);
-        addObject(new BlackSymbol(), col1x-2*colDiff, col1y-30);
-        addObject(new RedSymbol(), col1x + (grid[0].length+1)*colDiff, col1y-30);
+        int top_offset = 10;
+        addObject(new Top(scaleFactor), col1x+((grid[0].length-1)*colDiff)/2, col1y-top_offset);
+        addObject(new BlackSymbol(scaleFactor), col1x-2*colDiff, col1y-top_offset);
+        addObject(new RedSymbol(scaleFactor), col1x + (grid[0].length+1)*colDiff, col1y-top_offset);
         addObject(new Bottom(scaleFactor), col1x+((grid[0].length-1)*colDiff)/2, col1y + (grid.length+1)*rowDiff);
     }
 

@@ -16,4 +16,7 @@ public class RedSymbol extends Actor
     {
         // Add your action code here.
     }
+    public RedSymbol(int scaleFactor) {
+        getImage().scale(60/scaleFactor,60/scaleFactor);
+    }
 }

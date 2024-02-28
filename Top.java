@@ -16,4 +16,7 @@ public class Top extends Actor
     {
         // Add your action code here.
     }
+    public Top(int scaleFactor) {
+        getImage().scale(263/scaleFactor,60/scaleFactor);
+    }
 }

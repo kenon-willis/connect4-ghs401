@@ -16,4 +16,7 @@ public class BlackSymbol extends Actor
     {
         // Add your action code here.
     }
+    public BlackSymbol(int scaleFactor) {
+        getImage().scale(60/scaleFactor,60/scaleFactor);
+    }
 }
