@@ -62,15 +62,25 @@ public class MyWorld extends World
         colDiff=41; //to place checkers in the correct location
         
         // SIZE TODO: Fix Board()
-        addObject(new Board(),300,200); //adds game board
-        
-        
-        
-        
-        
-        
+        addBoard();
+
     }
     
+    public void addBoard() {
+        // Size: 41 x 38
+        //  (matches rowDiff & colDiff)
+        for (int r=0; r<grid.length; r++) {
+            for (int c=0; c<grid[0].length; c++) {
+                addObject(new Tile(), col1x+(c*colDiff), col1y+(r+1)*38);
+            }
+        }
+        
+        addObject(new Top(), col1x+((grid[0].length-1)*colDiff)/2, col1y-30);
+        addObject(new BlackSymbol(), col1x-2*colDiff, col1y-30);
+        addObject(new RedSymbol(), col1x + (grid[0].length+1)*colDiff, col1y-30);
+        addObject(new Bottom(), col1x+((grid[0].length-1)*colDiff)/2, col1y + (grid.length+1)*38);
+    }
+
     public void act(){
         
         
@@ -594,7 +604,7 @@ public class MyWorld extends World
         List objects = getObjects(null);
         removeObjects(objects);
         
-        addObject(new Board(),300,200); //adds game board
+        addBoard();
         
         resetGrid(); //clears 2d array
         firstPlay = true; //resets firstPlay to true
