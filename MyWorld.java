@@ -479,15 +479,13 @@ public class MyWorld extends World
         
         //adds the rainbow rings to the correct locations after a win
         
+        //System.out.println(str);
         int start = str.indexOf(initial+initial+initial+initial);
-        if(start==2)
-            start = 0;
-        else if(start==0)
-            start = 2;
+        start = (grid.length-1) - start;
         
         
             
-        for(int r = start; r < start + 4; r++){
+        for(int r = start; r > start-4; r--){
             addObject(new Ring(),col1x+(c * colDiff),col1y+(r+1)*38);
             
         }
