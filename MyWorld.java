@@ -152,7 +152,7 @@ public class MyWorld extends World
         
         //replace the following code with your strategy
         //but the second line shows you how to place your checker
-        int colToPlace = (int)(Math.random()*grid.length);
+        int colToPlace = (int)(Math.random()*(grid[0].length));
         
         placeCol(colToPlace,colorInitial,image1);  //plays in the specified col and fills the 2D array with the 2nd parameter String
         
@@ -188,7 +188,7 @@ public class MyWorld extends World
         
         //replace the following code with your strategy
         //but the second line shows you how to place your checker
-        int colToPlace = (int)(Math.random()*grid.length);
+        int colToPlace = (int)(Math.random()*(grid[0].length));
         
         placeCol(colToPlace,colorInitial,image2);  //plays in the specified col and fills the 2D array with the 2nd parameter String
          
@@ -218,8 +218,7 @@ public class MyWorld extends World
                 dropGrid(); //drops teamInitial down the column to bottom
             }
             else{//a random column is selected
-                
-                placeCol((int)(Math.random()*grid.length),teamInitial, color);
+                placeCol((int)(Math.random()*(grid[0].length)),teamInitial, color);
                 
             }
         
@@ -309,382 +308,145 @@ public class MyWorld extends World
             }
         }
         
-        
-        //checks for diagonal winner
-        //this checks for diagonal starting at bottom right, moving to top left
-        String diag1 = new String();  //Six new Strings to be built
-        String diag2 = new String();  //for each possible diagonal to win 
-        String diag3 = new String();
-        String diag4 = new String();
-        String diag5 = new String();
-        String diag6 = new String();
-        for(int r = 0; r < grid.length; r++){
-            for(int c = 0; c < grid[0].length; c++){
-                
-                if(r-c==2){ //checks two diagonals below the middle diagonal
-                    if(grid[r][c] == null)
-                         diag1 += "-"; //adds a dash if cell is blank
-                    else
-                         diag1 += grid[r][c]; //adds the player initial to String
-                }
-                
-                if(r-c==1){ //checks one diagonal below the middle diagonal
-                    if(grid[r][c] == null)
-                         diag2 += "-"; //adds a dash if cell is blank
-                    else
-                         diag2 += grid[r][c];  //adds the player initial to String
-                }
-                
-                if(r-c==0){//checks the middle diagonal
-                    if(grid[r][c] == null)
-                         diag3 += "-";
-                    else
-                         diag3 += grid[r][c];
-                }
-                
-                if(r-c==-1){ //checks one diagonal above the middle diagonal
-                    if(grid[r][c] == null)
-                         diag4 += "-";
-                    else
-                         diag4 += grid[r][c];
-                }
-                
-                if(r-c==-2){ //checks two diagonals above the middle diagonal
-                    if(grid[r][c] == null)
-                         diag5 += "-";
-                    else
-                         diag5 += grid[r][c];
-                }
-                
-                if(r-c==-3){  //checks three diagonals above the middle diagonal
-                    if(grid[r][c] == null)
-                         diag6 += "-";
-                    else
-                         diag6 += grid[r][c];
-                }
-                
-                // //check each concatenated diag String to see if it contains a winning streak for black
-                // //if so, call the correct diagonal to be highlighted
-                if(containsWinningString(diag1, playerBlackInitial)){
-                    circleDiagonal(1,diag1,playerBlackInitial);  //highlight the winning diagonal
-                    return playerBlackInitial;
-                }
-                else if(containsWinningString(diag2, playerBlackInitial)){
-                    circleDiagonal(2,diag2,playerBlackInitial);
-                    return playerBlackInitial;
-                }
-                else if(containsWinningString(diag3, playerBlackInitial)){
-                    circleDiagonal(3,diag3,playerBlackInitial);
-                    return playerBlackInitial;
-                }
-                else if(containsWinningString(diag4, playerBlackInitial)){
-                    circleDiagonal(4,diag4,playerBlackInitial);
-                    return playerBlackInitial;
-                }
-                else if(containsWinningString(diag5, playerBlackInitial)){
-                    circleDiagonal(5,diag5,playerBlackInitial);
-                    return playerBlackInitial;
-                }
-                else if(containsWinningString(diag6, playerBlackInitial)){
-                    circleDiagonal(6,diag6,playerBlackInitial);
-                    return playerBlackInitial;
-                }
-                
-                //same as above but checking to see if red is the winner
-                if(containsWinningString(diag1, playerRedInitial)){
-                    circleDiagonal(1,diag1,playerRedInitial);
-                    return playerRedInitial;
-                }
-                else if(containsWinningString(diag2, playerRedInitial)){
-                    circleDiagonal(2,diag2,playerRedInitial);
-                    return playerRedInitial;
-                }
-                else if(containsWinningString(diag3, playerRedInitial)){
-                    circleDiagonal(3,diag3,playerRedInitial);
-                    return playerRedInitial;
-                }
-                else if(containsWinningString(diag4, playerRedInitial)){
-                    circleDiagonal(4,diag4,playerRedInitial);
-                    return playerRedInitial;
-                }
-                else if(containsWinningString(diag5, playerRedInitial)){
-                    circleDiagonal(5,diag5,playerRedInitial);
-                    return playerRedInitial;
-                }
-                else if(containsWinningString(diag6, playerBlackInitial)){
-                    circleDiagonal(6,diag6,playerRedInitial);
-                    return playerRedInitial;
-                }
-                
-            }
-            
-            
+        // Checks for diagonal wins (new algorithm)
+        // To agree with previous code would have to proceed
+        //  botleft->topright and botright->topleft
+        // BUT, that's inconvenient for dynamic grids, so we go
+        //  botleft->topright and topleft->botright
+
+        // Algorithm details:
+        //  Basically, virtually extends the board to the left by <rows-1> cols
+        //  That way all diagonals on the board start from a valid column
+        //   on the *virtual* board
+        //  Iterate from every column on the virtual board, and you're done!
+        //  Iterating from the bottoms of the columns instead will do the botleft-topright ("reversed") diagonals
+        // Note: the strings in diags_top are all gridLimit() long exactly
+        //  if a diagonal is too short the spaces are filled in the '.'s
+
+        // PART 1: Checking topleft->botright
+
+        // Left of the virtual board
+        int virtual_board_left = -(grid[0].length-1);
+        // Diagonals serialized as strings
+        String[] diags_top = new String[grid.length + grid[0].length - 1];
+        // Initalize strings real quick
+        for (int i=0; i<diags_top.length;i++) {
+            diags_top[i] = new String();
         }
-        
-        
-        //reset diagonal Strings so we can now check for diagonal wins starting
-        //at bottom left moving up to top right
-        diag1="";
-        diag2="";
-        diag3="";
-        diag4="";
-        diag5="";
-        diag6="";
-        //check for diagonal wins starting
-        //at bottom left moving up to top right
-        for(int r = 0; r < grid.length; r++){
-            for(int c = 0; c < grid[0].length; c++){
-                
-                if(r+c==3){ //checks the diagonal 2 diagonals above the middle diagonal
-                    if(grid[r][c] == null)
-                         diag1 += "-";
-                    else
-                         diag1 += grid[r][c];
+        // Main loop
+        for (int b=virtual_board_left; b<grid.length; b++) {
+            // Continue checking rows, moving right 1 each time,
+            //  until we hit the bottom
+            for (int i=0; i<gridLimit(); i++) {
+                // If position in grid, add entry
+                int r = i;
+                int c = b+i;
+                boolean in_bounds = r > 0 && r < grid.length && c > 0 && c < grid[0].length;
+                if (in_bounds) {
+                    if (grid[r][c] == null) {
+                        diags_top[b-virtual_board_left] += "-";
+                    } else {
+                        diags_top[b-virtual_board_left] += grid[r][c];
+                    }
+                } else {
+                    diags_top[b-virtual_board_left] += ".";
                 }
-                
-                if(r+c==4){  //checks the diagonal 1 diagonal above the middle diagonal
-                    if(grid[r][c] == null)
-                         diag2 += "-";
-                    else
-                         diag2 += grid[r][c];
-                }
-                
-                if(r+c==5){  ////checks the middle diagonal 
-                    if(grid[r][c] == null)
-                         diag3 += "-";
-                    else
-                         diag3 += grid[r][c];
-                }
-                
-                if(r+c==6){ //checks the diagonal 1 diagonal below the middle diagonal
-                    if(grid[r][c] == null)
-                         diag4 += "-";
-                    else
-                         diag4 += grid[r][c];
-                }
-                
-                if(r+c==7){ //checks the diagonal 2 diagonals below the middle diagonal
-                    if(grid[r][c] == null)
-                         diag5 += "-";
-                    else
-                         diag5 += grid[r][c];
-                }
-                
-                if(r+c==8){  //checks the diagonal 3 diagonals below the middle diagonal
-                    if(grid[r][c] == null)
-                         diag6 += "-";
-                    else
-                         diag6 += grid[r][c];
-                }
-                
-                
-                //checks each concatenated String to see if it contains a win 
-                //streak for black
-                if(containsWinningString(diag1, playerBlackInitial)){
-                    circleBackwardsDiagonal(1,diag1,playerBlackInitial);
-                    return playerBlackInitial;
-                }
-                else if(containsWinningString(diag2, playerBlackInitial)){
-                    circleBackwardsDiagonal(2,diag2,playerBlackInitial);
-                    return playerBlackInitial;
-                }
-                else if(containsWinningString(diag3, playerBlackInitial)){
-                    circleBackwardsDiagonal(3,diag3,playerBlackInitial);
-                    return playerBlackInitial;
-                }
-                else if(containsWinningString(diag4, playerBlackInitial)){
-                    circleBackwardsDiagonal(4,diag4,playerBlackInitial);
-                    return playerBlackInitial;
-                }
-                else if(containsWinningString(diag5, playerBlackInitial)){
-                    circleBackwardsDiagonal(5,diag5,playerBlackInitial);
-                    return playerBlackInitial;
-                }
-                else if(containsWinningString(diag6, playerBlackInitial)){
-                    circleBackwardsDiagonal(6,diag6,playerBlackInitial);
-                    return playerBlackInitial;
-                }
-                
-                //checks each concatenated String to see if it contains a win 
-                //streak for red
-                if(containsWinningString(diag1, playerRedInitial)){
-                    circleBackwardsDiagonal(1,diag1,playerRedInitial);
-                    return playerRedInitial;
-                }
-                else if(containsWinningString(diag2, playerRedInitial)){
-                    circleBackwardsDiagonal(2,diag2,playerRedInitial);
-                    return playerRedInitial;
-                }
-                else if(containsWinningString(diag3, playerRedInitial)){
-                    circleBackwardsDiagonal(3,diag3,playerRedInitial);
-                    return playerRedInitial;
-                }
-                else if(containsWinningString(diag4, playerRedInitial)){
-                    circleBackwardsDiagonal(4,diag4,playerRedInitial);
-                    return playerRedInitial;
-                }
-                else if(containsWinningString(diag5, playerRedInitial)){
-                    circleBackwardsDiagonal(5,diag5,playerRedInitial);
-                    return playerRedInitial;
-                }
-                else if(containsWinningString(diag6, playerBlackInitial)){
-                    circleBackwardsDiagonal(6,diag6,playerRedInitial);
-                    return playerRedInitial;
-                }
-                
             }
-        
-        
-         }
+        }
+
+        // PART 2: Checking botleft->topright
+
+        // Diagonals serialized as strings
+        String[] diags_bot = new String[grid.length + grid[0].length - 1];
+        // Initalize strings real quick
+        for (int i=0; i<diags_bot.length;i++) {
+            diags_bot[i] = new String();
+        }
+        // Main loop
+        for (int b=virtual_board_left; b<grid.length; b++) {
+            // Continue checking rows, moving right 1 each time,
+            //  until we hit the bottom
+            for (int i=0; i<gridLimit(); i++) {
+                // If position in grid, add entry
+                int r = (grid.length-1) - i;
+                int c = b+i;
+                boolean in_bounds = r > 0 && r < grid.length && c > 0 && c < grid[0].length;
+                if (in_bounds) {
+                    if (grid[r][c] == null) {
+                        diags_bot[b-virtual_board_left] += "-";
+                    } else {
+                        diags_bot[b-virtual_board_left] += grid[r][c];
+                    }
+                } else {
+                    diags_bot[b-virtual_board_left] += ".";
+                }
+            }
+        }
+
+        for (int i=0; i<diags_top.length; i++) {
+            int virtual_col = i + virtual_board_left;
+
+            if (containsWinningString(diags_top[i], playerBlackInitial)) {
+                circleVirtualDiagonalPos(virtual_col, diags_top[i], playerBlackInitial);
+                return playerBlackInitial;
+            } else if (containsWinningString(diags_top[i], playerRedInitial)) {
+                circleVirtualDiagonalPos(virtual_col, diags_top[i], playerRedInitial);
+                return playerRedInitial;
+            }
+        }
+        for (int i=0; i<diags_bot.length; i++) {
+            int virtual_col = i + virtual_board_left;
+
+            if (containsWinningString(diags_bot[i], playerBlackInitial)) {
+                circleVirtualDiagonalNeg(virtual_col, diags_bot[i], playerBlackInitial);
+                return playerBlackInitial;
+            } else if (containsWinningString(diags_bot[i], playerRedInitial)) {
+                circleVirtualDiagonalNeg(virtual_col, diags_bot[i], playerRedInitial);
+                return playerRedInitial;
+            }
+        }
     
         return null; //returns null if there is no winner
     
     }
 
-    public void circleDiagonal(int diag,String str, String initial){
-        //adds the rainbow rings to the correct locations after a win
-        
-        int c = 0; //dictates the first column in the diagonal to be circled
-        int r = 0; //dicates the first row in the diagonal to be circled
-        
-        int start = str.indexOf(initial+initial+initial+initial);
-        
-        
-        //the steps below set the starting row and column,
-        //depending on which diagonal and which indexOf the streak was found
-        if(diag==1){
-            r=2;
-            c=0;
+    // If you're iterating simultaneously on row and col
+    //  this is the max
+    // Useful for diagonals
+    public int gridLimit() {
+        if (grid.length < grid[0].length) {
+            return grid.length;
+        } else {
+            return grid[0].length;
         }
-        else if(diag==2 && start == 0){
-            r=1;
-            c=0;
-        }
-        else if(diag==2 && start == 1){
-            r=2;
-            c=1;
-        }
-        else if(diag==3 && start == 0){
-            r=0;
-            c=0;
-        }
-        else if(diag==3 && start == 1){
-            r=1;
-            c=1;
-        }
-        else if(diag==3 && start == 2){
-            r=2;
-            c=2;
-        }
-        else if(diag==4 && start == 0){
-            r=0;
-            c=1;
-        }
-        else if(diag==4 && start == 1){
-            r=1;
-            c=2;
-        }
-        else if(diag==4 && start == 2){
-            r=2;
-            c=3;
-        }
-        else if(diag==5 && start == 0){
-            r=0;
-            c=2;
-        }
-        else if(diag==5 && start == 1){
-            r=1;
-            c=3;
-        }
-        else if(diag==6){
-            r=0;
-            c=3;
-        }
-        
-        
-        
-        for(int i=start; i < start + 4; i++){
-            //places a ring at each correct x,y location
-            //according to the rows and columns needed
-            addObject(new Ring(),col1x+(c * colDiff),col1y+(r+1)*38);
-            c++;
-            r++;
-        }
-        //}
     }
-    
-    
-    public void circleBackwardsDiagonal(int diag, String str, String initial){
-        //adds the rainbow rings to the correct locations after a win
-        
-        int c = 0; //dictates the first column in the diagonal to be circled
-        int r = 5; //dicates the first row in the diagonal to be circled
-        int repeat = 6; //dicates how many rainbow rings are needed
+    public void circleVirtualDiagonalPos(int virt_col, String str, String initial) {
         int start = str.indexOf(initial+initial+initial+initial);
-        
-        
-        
-        //the steps below set the starting row and column,
-        //depending on which diagonal and which indexOf the streak was found
-        if(diag==1){
-            r=3;
-            c=0;
+        if (start < 0) {
+            System.out.println("ERROR! INVALID STRING PASSED TO circleVirtualDiagonalPos");
         }
-        else if(diag==2 && start==0){
-            r=3;
-            c=1;
+
+        //System.out.println("(P)---" + str);
+        for (int i=start; i<start+4; i++) {
+            int r = i;
+            int c = virt_col+i;
+            //System.out.println(r + ", " + c);
+            addObject(new Ring(),col1x+(c*colDiff),col1y+(r+1)*38);
         }
-        else if(diag==2 && start==1){
-            r=4;
-            c=0;
+    }
+    public void circleVirtualDiagonalNeg(int virt_col, String str, String initial) {
+        int start = str.indexOf(initial+initial+initial+initial);
+        if (start < 0) {
+            System.out.println("ERROR! INVALID STRING PASSED TO circleVirtualDiagonalNeg");
         }
-        else if(diag==3 && start==0){
-            r=3;
-            c=2;
+
+        //System.out.println("(N)--- " + str);
+        for (int i=start; i<start+4; i++) {
+            int r = (grid.length-1)-i;
+            int c = virt_col+i;
+            //System.out.println(r + ", " + c);
+            addObject(new Ring(),col1x+(c*colDiff),col1y+(r+1)*38);
         }
-        else if(diag==3 && start==1){
-            r=4;
-            c=1;
-        }
-        else if(diag==3 && start==2){
-            r=5;
-            c=0;
-        }
-        else if(diag==4 && start==2){
-            r=5;
-            c=1;
-        }
-        else if(diag==4 && start==1){
-            r=4;
-            c=2;
-        }
-        else if(diag==4 && start==0){
-            r=3;
-            c=3;
-        }
-        else if(diag==5 && start==0){
-            r=4;
-            c=3;
-        }
-        else if(diag==5 && start==1){
-            r=5;
-            c=2;
-        }
-        else if(diag==6){
-            r=5;
-            c=3;
-        }
-        
-        
-         
-        for(int i=start; i < start+4; i++){
-            //places a ring at each correct x,y location
-            //according to the rows and columns needed
-            addObject(new Ring(),col1x+(c * colDiff),col1y+(r+1)*38);
-            c++;
-            r--;
-        }
-        //}
     }
     
     
