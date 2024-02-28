@@ -15,12 +15,12 @@ public class Checker extends Actor
     private int col;
     private int numMoves;
     
-    
+    private int scaleFactor;
  
     
-    public Checker(int col, GreenfootImage image){
+    public Checker(int col, GreenfootImage image, int scaleFactor){
         //scales image
-        image.scale(41, 41);
+        image.scale(41/scaleFactor, 41/scaleFactor);
         //image.scale((int)(40, (int)(image.getHeight()*0.07));
         setImage(image);
         
@@ -30,7 +30,7 @@ public class Checker extends Actor
         
         this.col = col;
         this.numMoves=-1;
-        
+        this.scaleFactor = scaleFactor;
         
     }
     
@@ -53,7 +53,7 @@ public class Checker extends Actor
         
     if(numMoves > 0){
         //drops the checker the required amount
-         move(-38);
+         move(-38/scaleFactor);
          numMoves--;
     }
         

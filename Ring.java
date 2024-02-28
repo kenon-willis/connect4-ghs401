@@ -19,9 +19,9 @@ public class Ring extends Actor
         
     }    
     
-    public Ring(){
+    public Ring(int scaleFactor){
         
-        getImage().scale(60,60);
+        getImage().scale(60/scaleFactor,60/scaleFactor);
         
         
         

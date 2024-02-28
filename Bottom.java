@@ -16,4 +16,8 @@ public class Bottom extends Actor
     {
         // Add your action code here.
     }
+    
+    public Bottom(int scaleFactor) {
+        getImage().scale(364/scaleFactor, 24/scaleFactor);
+    }
 }

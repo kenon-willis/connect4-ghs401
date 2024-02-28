@@ -28,7 +28,8 @@ public class MyWorld extends World
     
     
     private int turnCounter;
-    private int col1x, col1y, colDiff;
+    private int col1x, col1y, colDiff, rowDiff;
+    private int scaleFactor;
     private int actCounter;
     
     /**
@@ -57,28 +58,34 @@ public class MyWorld extends World
         
         
         turnCounter = 1; //used to keep track of number of plays made
-        col1x=176; //to place checkers in the correct location
+        scaleFactor=1;
+        colDiff=41/scaleFactor; //to place checkers in the correct location
+        rowDiff=38/scaleFactor;
+        col1x=(getWidth()/2) - ((grid[0].length-1) * colDiff)/2; //to place checkers in the correct location
         col1y=72; //to place checkers in the correct location
-        colDiff=41; //to place checkers in the correct location
         
         // SIZE TODO: Fix Board()
         addBoard();
 
     }
     
+    public int getScaleFactor() {
+        return scaleFactor;
+    }
     public void addBoard() {
         // Size: 41 x 38
         //  (matches rowDiff & colDiff)
         for (int r=0; r<grid.length; r++) {
             for (int c=0; c<grid[0].length; c++) {
-                addObject(new Tile(), col1x+(c*colDiff), col1y+(r+1)*38);
+                addObject(new Tile(scaleFactor), col1x+(c*colDiff), col1y+(r+1)*rowDiff);
             }
         }
+        
         
         addObject(new Top(), col1x+((grid[0].length-1)*colDiff)/2, col1y-30);
         addObject(new BlackSymbol(), col1x-2*colDiff, col1y-30);
         addObject(new RedSymbol(), col1x + (grid[0].length+1)*colDiff, col1y-30);
-        addObject(new Bottom(), col1x+((grid[0].length-1)*colDiff)/2, col1y + (grid.length+1)*38);
+        addObject(new Bottom(scaleFactor), col1x+((grid[0].length-1)*colDiff)/2, col1y + (grid.length+1)*rowDiff);
     }
 
     public void act(){
@@ -223,7 +230,7 @@ public class MyWorld extends World
         
         //places checker and updates grid
             if(grid[0][column] == null){//makes sure there is a place to play, if not a random col is selected
-                addObject(new Checker(column,color),col1x+(column * colDiff),col1y);
+                addObject(new Checker(column,color,scaleFactor),col1x+(column * colDiff),col1y);
                 grid[0][column] = teamInitial; //adds initial to 2d grid
                 dropGrid(); //drops teamInitial down the column to bottom
             }
@@ -441,7 +448,7 @@ public class MyWorld extends World
             int r = i;
             int c = virt_col+i;
             //System.out.println(r + ", " + c);
-            addObject(new Ring(),col1x+(c*colDiff),col1y+(r+1)*38);
+            addObject(new Ring(scaleFactor),col1x+(c*colDiff),col1y+(r+1)*rowDiff);
         }
     }
     public void circleVirtualDiagonalNeg(int virt_col, String str, String initial) {
@@ -455,7 +462,7 @@ public class MyWorld extends World
             int r = (grid.length-1)-i;
             int c = virt_col+i;
             //System.out.println(r + ", " + c);
-            addObject(new Ring(),col1x+(c*colDiff),col1y+(r+1)*38);
+            addObject(new Ring(scaleFactor),col1x+(c*colDiff),col1y+(r+1)*rowDiff);
         }
     }
     
@@ -469,7 +476,7 @@ public class MyWorld extends World
         int start = str.indexOf(initial+initial+initial+initial);
         
         for(int c = start; c < start+4; c++){
-            addObject(new Ring(),col1x+(c * colDiff),col1y+(r+1)*38);
+            addObject(new Ring(scaleFactor),col1x+(c * colDiff),col1y+(r+1)*rowDiff);
             
         }
     }
@@ -486,7 +493,7 @@ public class MyWorld extends World
         
             
         for(int r = start; r > start-4; r--){
-            addObject(new Ring(),col1x+(c * colDiff),col1y+(r+1)*38);
+            addObject(new Ring(scaleFactor),col1x+(c * colDiff),col1y+(r+1)*rowDiff);
             
         }
     }
