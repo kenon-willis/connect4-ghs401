@@ -72,10 +72,10 @@ public class MyWorld extends World
         double rowScaleFactor=boardWidth/(600.0-180.0);
         scaleFactor = max(colScaleFactor,rowScaleFactor);
         
-        System.out.println(scaleFactor);
+        //System.out.println(scaleFactor);
         colDiff=(int)(colDiff/scaleFactor); //to place checkers in the correct location
         rowDiff=(int)(rowDiff/scaleFactor);
-        System.out.println(colDiff + ", " + rowDiff);
+        //System.out.println(colDiff + ", " + rowDiff);
         
         col1x=(getWidth()/2) - ((grid[0].length-1) * colDiff)/2; //to place checkers in the correct location
         col1y=72; //to place checkers in the correct location
