@@ -5,5 +5,5 @@ comment1.params=
 comment1.target=void\ act()
 comment1.text=\n\ Act\ -\ do\ whatever\ the\ Top\ wants\ to\ do.\ This\ method\ is\ called\ whenever\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\n
 comment2.params=scaleFactor
-comment2.target=Top(int)
+comment2.target=Top(double)
 numComments=3

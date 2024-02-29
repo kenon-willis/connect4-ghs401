@@ -29,7 +29,7 @@ public class MyWorld extends World
     
     private int turnCounter;
     private int col1x, col1y, colDiff, rowDiff;
-    private int scaleFactor;
+    private double scaleFactor;
     private int actCounter;
     
     /**
@@ -40,7 +40,7 @@ public class MyWorld extends World
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(600, 400, 1); 
-        grid = new String[10][10];    //to keep track of the game board
+        grid = new String[7][7];    //to keep track of the game board
         firstPlayerTurn = (int)(Math.random()*2+1);   //randomize who starts the game
         playerBlack = "PlayerBlack";
         playerRed = "PlayerRed";
@@ -58,9 +58,25 @@ public class MyWorld extends World
         
         
         turnCounter = 1; //used to keep track of number of plays made
-        scaleFactor=2;
-        colDiff=41/scaleFactor; //to place checkers in the correct location
-        rowDiff=38/scaleFactor;
+        
+        colDiff = 41;
+        rowDiff = 38;
+        col1x=(getWidth()/2) - ((grid[0].length-1) * colDiff)/2; //to place checkers in the correct location
+        col1y=72; //to place checkers in the correct location
+        
+        double boardHeight = rowDiff*grid.length+rowDiff+30;
+        double boardWidth = grid[0].length*colDiff;
+        //showText("XXX",100,(int)boardHeight);
+        
+        double colScaleFactor=boardHeight/(400-col1y);
+        double rowScaleFactor=boardWidth/(600.0-180.0);
+        scaleFactor = max(colScaleFactor,rowScaleFactor);
+        
+        System.out.println(scaleFactor);
+        colDiff=(int)(colDiff/scaleFactor); //to place checkers in the correct location
+        rowDiff=(int)(rowDiff/scaleFactor);
+        System.out.println(colDiff + ", " + rowDiff);
+        
         col1x=(getWidth()/2) - ((grid[0].length-1) * colDiff)/2; //to place checkers in the correct location
         col1y=72; //to place checkers in the correct location
         
@@ -69,6 +85,20 @@ public class MyWorld extends World
 
     }
     
+    double max(double a, double b) {
+        if (a > b) {
+            return a;
+        } else {
+            return b;
+        }
+    }
+    double min(double a, double b) {
+        if (a < b) {
+            return a;
+        } else {
+            return b;
+        }
+    }
     public void addBoard() {
         // Size: 41 x 38
         //  (matches rowDiff & colDiff)
@@ -79,9 +109,9 @@ public class MyWorld extends World
         }
         
         int top_offset = 10;
-        addObject(new Top(scaleFactor), col1x+((grid[0].length-1)*colDiff)/2, col1y-top_offset);
-        addObject(new BlackSymbol(scaleFactor), col1x-2*colDiff, col1y-top_offset);
-        addObject(new RedSymbol(scaleFactor), col1x + (grid[0].length+1)*colDiff, col1y-top_offset);
+        addObject(new Top(min(scaleFactor,2.0)), col1x+((grid[0].length-1)*colDiff)/2, col1y-top_offset);
+        addObject(new BlackSymbol(min(scaleFactor,2.0)), 70, col1y-top_offset);
+        addObject(new RedSymbol(min(scaleFactor,2.0)), getWidth()-70, col1y-top_offset);
         addObject(new Bottom(scaleFactor), col1x+((grid[0].length-1)*colDiff)/2, col1y + (grid.length+1)*rowDiff);
     }
 
@@ -546,7 +576,7 @@ public class MyWorld extends World
         double opponentPercentage = Math.round((100.0-winPercentageRounded)*1000)/1000.0;
         showText(opponentPercentage + "%",getWidth()-70,160); //shows the total win % for other player
     
-        addObject(new BigRing(),70,130); //highlights winning name
+        addObject(new BigRing(scaleFactor),70,130); //highlights winning name
         
         
     
@@ -575,7 +605,7 @@ public class MyWorld extends World
         double opponentPercentage = Math.round((100.0-winPercentageRounded)*1000)/1000.0;
         showText(opponentPercentage + "%",70,160); //shows the total win % for other player
     
-        addObject(new BigRing(),getWidth()-70,130); //highlights winning name
+        addObject(new BigRing(scaleFactor),getWidth()-70,130); //highlights winning name
         
         
     

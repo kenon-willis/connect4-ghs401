@@ -17,7 +17,7 @@ public class Tile extends Actor
         // Add your action code here.
     }
     
-    public Tile(int scaleFactor) {
-        getImage().scale(41/scaleFactor,38/scaleFactor);
+    public Tile(double scaleFactor) {
+        getImage().scale((int)(41/scaleFactor),(int)(38/scaleFactor));
     }
 }
