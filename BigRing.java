@@ -17,8 +17,9 @@ public class BigRing extends Actor
         // Add your action code here.
     }    
     
-    public BigRing(){
+    public BigRing(double scaleFactor){
         
+        //getImage().scale((int)(130/scaleFactor),(int)(130/scaleFactor));
         getImage().scale(130,130);
         //image.scale((int)(image.getWidth()*0.2), (int)(image.getHeight()*0.2));
         //setImage(image);

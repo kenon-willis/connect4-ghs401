@@ -10,3 +10,6 @@ VERSION or DATE:
 HOW TO START THIS PROJECT:
 AUTHORS:
 USER INSTRUCTIONS:
+
+== Editing the size
+Just change the dimensions of the grid property in the MyWorld constructor
