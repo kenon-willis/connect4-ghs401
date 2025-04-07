@@ -139,12 +139,24 @@ public class MyWorld extends World
     }
     
     public void playerBlackStrategy(){
+        //leave this next set of code at the top-------------------------------
+        boolean playerIsRed = false; //this is so Mr. Willis can easily switch your color
         
-        //leave these top 4 lines at the top
-        playerBlack = "Tito";  //put player1 name here
-        showText(playerBlack,70,100); //shows your name
         GreenfootImage image1 = new GreenfootImage("black.png"); //sets image to black checker
         String colorInitial = new String("b"); //fills the 2d array grid with this value
+        
+        
+        if(playerIsRed){
+            playerRed = "Tito";  //put player1 name here
+            showText(playerRed,getWidth()-70,100); //shows your name
+            image1 = new GreenfootImage("red.png"); //sets image to black checker
+            colorInitial = new String("r"); //fills the 2d array grid with this value
+        }
+        else{
+            playerBlack = "Tito";  //put player1 name here
+            showText(playerBlack,70,100); //shows your name
+        }
+        //leave this set of code above at the top-------------------------------
         
         
         
@@ -174,12 +186,23 @@ public class MyWorld extends World
     
     
     public void playerRedStrategy(){
-        //leave these top 3 lines at the top
-        playerRed = "Janet";  //put your name here
-        showText(playerRed,getWidth()-70,100); //shows your name
-        GreenfootImage image2 = new GreenfootImage("red.png");  //sets image to red checker
-        String colorInitial = new String("r");  //fills the 2d array grid with this value
+        //leave this next set of code at the top-------------------------------
+        boolean playerIsRed = true; //this is so Mr. Willis can easily switch your color
         
+        GreenfootImage image1 = new GreenfootImage("black.png"); //sets image to black checker
+        String colorInitial = new String("b"); //fills the 2d array grid with this value
+        
+        if(playerIsRed){
+            playerRed = "Janet";  //put player1 name here
+            showText(playerRed,getWidth()-70,100); //shows your name
+            image1 = new GreenfootImage("red.png"); //sets image to black checker
+            colorInitial = new String("r"); //fills the 2d array grid with this value
+        }
+        else{
+            playerBlack = "Janet";  //put player1 name here
+            showText(playerBlack,70,100); //shows your name
+        }
+        //leave this set of code above at the top-------------------------------
         
         
         
@@ -188,7 +211,7 @@ public class MyWorld extends World
         //but the second line shows you how to place your checker
         int colToPlace = (int)(Math.random()*7);
         
-        placeCol(colToPlace,colorInitial,image2);  //plays in the specified col and fills the 2D array with the 2nd parameter String
+        placeCol(colToPlace,colorInitial,image1);  //plays in the specified col and fills the 2D array with the 2nd parameter String
          
         
         
