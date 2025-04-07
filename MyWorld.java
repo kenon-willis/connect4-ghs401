@@ -147,13 +147,13 @@ public class MyWorld extends World
         
         
         if(playerIsRed){
-            playerRed = "Tito";  //put player1 name here
+            playerRed = "Tito";  //put player name here
             showText(playerRed,getWidth()-70,100); //shows your name
             image1 = new GreenfootImage("red.png"); //sets image to black checker
             colorInitial = new String("r"); //fills the 2d array grid with this value
         }
         else{
-            playerBlack = "Tito";  //put player1 name here
+            playerBlack = "Tito";  //put player name here
             showText(playerBlack,70,100); //shows your name
         }
         //leave this set of code above at the top-------------------------------
@@ -193,13 +193,13 @@ public class MyWorld extends World
         String colorInitial = new String("b"); //fills the 2d array grid with this value
         
         if(playerIsRed){
-            playerRed = "Janet";  //put player1 name here
+            playerRed = "Janet";  //put player name here
             showText(playerRed,getWidth()-70,100); //shows your name
             image1 = new GreenfootImage("red.png"); //sets image to black checker
             colorInitial = new String("r"); //fills the 2d array grid with this value
         }
         else{
-            playerBlack = "Janet";  //put player1 name here
+            playerBlack = "Janet";  //put player name here
             showText(playerBlack,70,100); //shows your name
         }
         //leave this set of code above at the top-------------------------------
