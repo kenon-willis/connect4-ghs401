@@ -803,6 +803,7 @@ public class MyWorld extends World
         int games = bwins + rwins + tieCounter/actCounter;
         
         showText("Wins: " + bwins,70,130); //shows the total wins
+        showText("Wins: " + rwins,getWidth()-70,130); //shows the total wins
         double bwinPercentage = (double)(bwins)/(games);
         double rwinPercentage = (double)(rwins)/(games);
         double bwinPercentageRounded = 100*Math.round(bwinPercentage*1000)/1000.0;
