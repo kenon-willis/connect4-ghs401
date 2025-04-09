@@ -765,7 +765,7 @@ public class MyWorld extends World
         tieCounter++;
         
         showText("Ties: " + tieCounter/actCounter,getWidth()/2,370); //shows number of ties
-        
+        showStats();
         
         
         
@@ -786,19 +786,36 @@ public class MyWorld extends World
         
     
         //calculates and shows all the stats
-        showText("Wins: " + wins,70,130); //shows the total wins
-        double winPercentage = (double)(wins)/(games);
-        double winPercentageRounded = 100*Math.round(winPercentage*1000)/1000.0;
-        showText(winPercentageRounded + "%",70,160); //shows the total win %
-        double opponentPercentage = Math.round((100.0-winPercentageRounded)*1000)/1000.0;
-        showText(opponentPercentage + "%",getWidth()-70,160); //shows the total win % for other player
-    
+        showStats();
+        
         addObject(new BigRing(),70,130); //highlights winning name
         
         
     
         
         
+    }
+    
+    public void showStats() {
+        //calculates and shows all the stats
+        int bwins = playerBlackWinTotal/actCounter;
+        int rwins = playerRedWinTotal/actCounter;
+        int games = bwins + rwins + tieCounter/actCounter;
+        
+        showText("Wins: " + bwins,70,130); //shows the total wins
+        double bwinPercentage = (double)(bwins)/(games);
+        double rwinPercentage = (double)(rwins)/(games);
+        double bwinPercentageRounded = 100*Math.round(bwinPercentage*1000)/1000.0;
+        double rwinPercentageRounded = 100*Math.round(rwinPercentage*1000)/1000.0;
+        showText(bwinPercentageRounded + "%",70,160); //shows the total win %
+        showText(rwinPercentageRounded + "%",getWidth()-70,160); //shows the total win % for other player
+        double bmarginOfError = 2.57 * Math.sqrt((bwinPercentage * (1.0 - bwinPercentage)) / games);
+        double rmarginOfError = 2.57 * Math.sqrt((rwinPercentage * (1.0 - rwinPercentage)) / games);
+        double bmarginOfErrorRounded = 100*Math.round(bmarginOfError*1000)/1000.0;
+        double rmarginOfErrorRounded = 100*Math.round(rmarginOfError*1000)/1000.0;
+        showText("~" + bmarginOfErrorRounded + "%", 70, 180);
+        showText("~" + rmarginOfErrorRounded + "%", getWidth()-70, 180);
+        showText("Accuracy of margin of error: 99%",getWidth()/2,390);
     }
     
     public void showPlayer2Winner(){
@@ -815,13 +832,8 @@ public class MyWorld extends World
         
         
         //calculates and shows all the stats
-        showText("Wins: " + wins1,getWidth()-70,130); //shows the total wins
-        double winPercentage = (double)(wins1)/(games);
-        double winPercentageRounded = 100*Math.round(winPercentage*1000)/1000.0;
-        showText(winPercentageRounded + "%",getWidth()-70,160); //shows the total win %
-        double opponentPercentage = Math.round((100.0-winPercentageRounded)*1000)/1000.0;
-        showText(opponentPercentage + "%",70,160); //shows the total win % for other player
-    
+        showStats();
+        
         addObject(new BigRing(),getWidth()-70,130); //highlights winning name
         
         
