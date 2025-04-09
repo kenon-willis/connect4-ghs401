@@ -765,7 +765,7 @@ public class MyWorld extends World
         tieCounter++;
         
         showText("Ties: " + tieCounter/actCounter,getWidth()/2,370); //shows number of ties
-        
+        showStats();
         
         
         
