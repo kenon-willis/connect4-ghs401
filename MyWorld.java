@@ -548,7 +548,7 @@ public class MyWorld extends World
                     circleBackwardsDiagonal(5,diag5,playerRedInitial);
                     return playerRedInitial;
                 }
-                else if(containsWinningString(diag6, playerBlackInitial)){
+                else if(containsWinningString(diag6, playerRedInitial)){
                     circleBackwardsDiagonal(6,diag6,playerRedInitial);
                     return playerRedInitial;
                 }
